@@ -11,7 +11,7 @@
     <!-- ここに成果地点タグを挿入します -->
     <script>
       const rmtConversion = () => {
-        const RMT_AD_ID = yaYiYy;
+        const RMT_AD_ID = "yaYiYy";
         const RMT_AD_ID_KEY = "_rmt_ad_id_";
         const RMT_SID_KEY = "_rmt_sid_";
 
@@ -69,7 +69,7 @@
 
         const params = { rmt_ad_id: rmtAdId, rmt_sid: rmtSid };
 
-        const url = "http://localhost:3000";
+        const url = "https://stg-entry-api.recommect.com";
         const xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.send(EncodeHTMLForm(params));
