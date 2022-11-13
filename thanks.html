@@ -8,6 +8,81 @@
   </head>
   <body>
     <div>Thanks ページです。</div>
-    <!-- ここに成果地点タグを挿入します。 -->
+    <!-- ここに成果地点タグを挿入します -->
+    <script>
+      const rmtConversion = () => {
+        const RMT_AD_ID = yaYiYy;
+        const RMT_AD_ID_KEY = "_rmt_ad_id_";
+        const RMT_SID_KEY = "_rmt_sid_";
+
+        const findAdId = (kvPairs) => {
+          const targetKeys = Object.keys(kvPairs).find((key) =>
+            key.includes(RMT_AD_ID_KEY)
+          );
+          const targetAdIds = targetKeys.map(
+            (key) => key.split(RMT_AD_ID_KEY)[1]
+          );
+          const targetAdId = targetAdIds.find((adId) => adId === RMT_AD_ID);
+          return targetAdId;
+        };
+
+        const fetchAdIdFromCookie = () => {
+          // Cookie Data
+          const kvs = document.cookie
+            .split("; ")
+            .map((_kvs) => _kvs.split("="));
+          const kvPairs = Object.fromEntries(kvs);
+          const adIdFromCookie = findAdId(kvPairs);
+          return adIdFromCookie;
+        };
+
+        const fetchAdIdFromLocalStorage = () => {
+          // localStorage Data
+          const lsKeys = Object.keys(localStorage);
+          const lsKvs = lsKeys.map((key) => [key, localStorage.getItem(key)]);
+          const lsKvPairs = Object.fromEntries(lsKvs);
+          const adIdFromLocalStorage = findAdId(lsKvPairs);
+          return adIdFromLocalStorage;
+        };
+
+        const clearCookieAndLocalStorageData = () => {
+          // remove RMT_AD_ID_KEY Cookie
+          document.cookie = `${RMT_AD_ID_KEY}${targetAdId}=; max-age=0;`;
+          // remove RMT_SID_KEY Cookie
+          document.cookie = `${RMT_SID_KEY}${targetAdId}=; max-age=0;`;
+
+          // remove RMT_AD_ID_KEY localStorage data
+          localStorage.removeItem(`${RMT_AD_ID_KEY}${targetAdId}`);
+          // remove RMT_SID_KEY Cookie
+          localStorage.removeItem(`${RMT_SID_KEY}${targetAdId}`);
+        };
+
+        // Main Logic
+        let adId = "";
+        adId = fetchAdIdFromCookie();
+        if (!adId) {
+          adId = fetchAdIdFromLocalStorage();
+        }
+
+        const rmtAdId = kvPairs[`${RMT_AD_ID_KEY}${adId}`];
+        const rmtSid = kvPairs[`${RMT_SID_KEY}${adId}`];
+
+        const params = { rmt_ad_id: rmtAdId, rmt_sid: rmtSid };
+
+        const url = "http://localhost:3000";
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.send(EncodeHTMLForm(params));
+
+        // if succeeded, remove cookies
+        xhr.onloadend = () => {
+          if (xhr.status !== 200) {
+            clearCookieAndLocalStorageData();
+          }
+        };
+      };
+      rmtConversion();
+    </script>
+    <!-- ------------------------- -->
   </body>
 </html>
