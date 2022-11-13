@@ -16,33 +16,28 @@
         const RMT_SID_KEY = "_rmt_sid_";
 
         const findAdId = (kvPairs) => {
-          const targetKeys = Object.keys(kvPairs).find((key) =>
+          const targetKey = Object.keys(kvPairs).find((key) =>
             key.includes(RMT_AD_ID_KEY)
           );
-          const targetAdIds = targetKeys.map(
-            (key) => key.split(RMT_AD_ID_KEY)[1]
-          );
-          const targetAdId = targetAdIds.find((adId) => adId === RMT_AD_ID);
+          const targetAdId = targetKey.split(RMT_AD_ID_KEY)[1];
           return targetAdId;
         };
 
-        const fetchAdIdFromCookie = () => {
+        const kvPairsFromCookie = () => {
           // Cookie Data
           const kvs = document.cookie
             .split("; ")
             .map((_kvs) => _kvs.split("="));
           const kvPairs = Object.fromEntries(kvs);
-          const adIdFromCookie = findAdId(kvPairs);
-          return adIdFromCookie;
+          return kvPairs;
         };
 
-        const fetchAdIdFromLocalStorage = () => {
+        const kvPairsFromLocalStorage = () => {
           // localStorage Data
           const lsKeys = Object.keys(localStorage);
-          const lsKvs = lsKeys.map((key) => [key, localStorage.getItem(key)]);
-          const lsKvPairs = Object.fromEntries(lsKvs);
-          const adIdFromLocalStorage = findAdId(lsKvPairs);
-          return adIdFromLocalStorage;
+          const kvs = lsKeys.map((key) => [key, localStorage.getItem(key)]);
+          const kvPairs = Object.fromEntries(kvs);
+          return kvPairs;
         };
 
         const clearCookieAndLocalStorageData = () => {
@@ -58,11 +53,8 @@
         };
 
         // Main Logic
-        let adId = "";
-        adId = fetchAdIdFromCookie();
-        if (!adId) {
-          adId = fetchAdIdFromLocalStorage();
-        }
+        const kvPairs = kvPairsFromCookie() || kvPairsFromLocalStorage();
+        const adId = findAdId(kvPairs);
 
         const rmtAdId = kvPairs[`${RMT_AD_ID_KEY}${adId}`];
         const rmtSid = kvPairs[`${RMT_SID_KEY}${adId}`];
