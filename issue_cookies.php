@@ -18,7 +18,7 @@ $samesite = 'lax';
 $secure = true;
 
 if ($version >= 70300) {
-  $options = array("expires" => $expires, "path" => $path, "secure" => $secure, "samesite" => $samesite, "httponly" => true);
+  $options = array("expires" => $expires, "path" => $path, "secure" => $secure, "samesite" => $samesite);
 
   if (isset($rmt_ad_id_key)) {
     $ad_id_cookie_key = "_{$rmt_ad_id_key}_{$rmt_ad_id_value}";
