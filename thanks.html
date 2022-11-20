@@ -16,10 +16,10 @@
         const RMT_SID_KEY = "_rmt_sid_";
 
         const findAdId = (kvPairs) => {
-          const targetKey = Object.keys(kvPairs).find((key) =>
-            key.includes(RMT_AD_ID_KEY)
-          );
-          const targetAdId = targetKey.split(RMT_AD_ID_KEY)[1];
+          const targetKey =
+            Object.keys(kvPairs).find((key) => key.includes(RMT_AD_ID_KEY)) ||
+            "";
+          const targetAdId = targetKey.split(RMT_AD_ID_KEY)[1] || "";
           return targetAdId;
         };
 
@@ -55,7 +55,7 @@
         };
 
         // Main Logic
-        const kvPairs = kvPairsFromCookie() || kvPairsFromLocalStorage();
+        const kvPairs = kvPairsFromCookie() || kvPairsFromLocalStorage() || {};
         const adId = findAdId(kvPairs);
 
         const rmtAdId = kvPairs[`${RMT_AD_ID_KEY}${adId}`];
@@ -63,7 +63,8 @@
 
         const params = { rmt_ad_id: rmtAdId, rmt_sid: rmtSid };
 
-        const url = "https://stg-entry-api.recommect.com";
+        const url =
+          "https://stg-entry-api.recommect.com/v1/entry/advertisements/yaYiYy/conversion";
         const xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.send(params);
