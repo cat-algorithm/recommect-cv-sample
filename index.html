@@ -64,7 +64,7 @@
           const kvsArray = document.cookie.split('; ')
                                       .map((_kvs) => {
                                         const value = _kvs.split('=')[1]
-                                        const key = _kvs.split('=')[0].slice(1).replace(`_${val}`, '')
+                                        const key = _kvs.split('=')[0].slice(1).replace(`_${value}`, '')
                                         return [key, value]
                                       })
                                       .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
@@ -74,7 +74,7 @@
           const lsKeys = Object.keys(localStorage)
           const lsKvsArray = lsKeys.map((_key) => {
                                 const value = localStorage.getItem(_key)
-                                const key = _key.slice(1).replace(`_${val}`, '')
+                                const key = _key.slice(1).replace(`_${value}`, '')
                                 return [key, value]
                               })
                               .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
