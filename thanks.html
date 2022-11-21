@@ -61,13 +61,16 @@
         const rmtAdId = kvPairs[`${RMT_AD_ID_KEY}${adId}`];
         const rmtSid = kvPairs[`${RMT_SID_KEY}${adId}`];
 
-        const params = { rmt_ad_id: rmtAdId, rmt_sid: rmtSid };
+        const params = new URLSearchParams({
+          rmt_ad_id: rmtAdId,
+          rmt_sid: rmtSid,
+        });
 
         const url =
           "https://stg-entry-api.recommect.com/v1/entry/advertisements/yaYiYy/conversion";
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.send(params);
+        xhr.open("POST", url, true);
+        xhr.send(params.toString());
 
         // if succeeded, remove cookies
         xhr.onloadend = () => {
