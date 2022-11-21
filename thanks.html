@@ -70,6 +70,10 @@
           "https://stg-entry-api.recommect.com/v1/entry/advertisements/yaYiYy/conversion";
         const xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        );
         xhr.send(params.toString());
 
         // if succeeded, remove cookies
