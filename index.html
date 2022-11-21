@@ -61,14 +61,22 @@
 
         const fetchDataFromCookieOrLocalStorage = () => {
           // Cookie Data
-          const kvsArray = document.cookie.split("; ")
-                                     .map((_kvs) => _kvs.slice(1).split('='))
-                                     .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
+          const kvsArray = document.cookie.split('; ')
+                                      .map((_kvs) => {
+                                        const value = _kvs.split('=')[1]
+                                        const key = _kvs.split('=')[0].slice(1).replace(`_${val}`, '')
+                                        return [key, value]
+                                      })
+                                      .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
           const kvs = Object.fromEntries(kvsArray)
 
           // localStorage Data
           const lsKeys = Object.keys(localStorage)
-          const lsKvsArray = lsKeys.map((key) => [key.slice(1), localStorage.getItem(key)])
+          const lsKvsArray = lsKeys.map((_key) => {
+                                const value = localStorage.getItem(_key)
+                                const key = _key.slice(1).replace(`_${val}`, '')
+                                return [key, value]
+                              })
                               .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
           const lsKvs = Object.fromEntries(lsKvsArray)
 
