@@ -70,8 +70,7 @@
                               .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
 
           // Cookie と localStorage のうち Cookie にある値を優先して merge
-          const mergedKvs = {...lsKvs, kvs}
-          const kvPairs = Object.fromEntries(mergedKvs)
+          const kvPairs = {...lsKvs, kvs}
           return kvPairs
         }
 
