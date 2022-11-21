@@ -62,13 +62,13 @@
         const fetchDataFromCookieOrLocalStorage = () => {
           // Cookie Data
           const kvsArray = document.cookie.split("; ")
-                                     .map((_kvs) => _kvs.split('='))
+                                     .map((_kvs) => _kvs.slice(1).split('='))
                                      .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
           const kvs = Object.fromEntries(kvsArray)
 
           // localStorage Data
           const lsKeys = Object.keys(localStorage)
-          const lsKvsArray = lsKeys.map((key) => [key, localStorage.getItem(key)])
+          const lsKvsArray = lsKeys.map((key) => [key.slice(1), localStorage.getItem(key)])
                               .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
           const lsKvs = Object.fromEntries(lsKvsArray)
 
@@ -95,7 +95,6 @@
             if (xhr.status === 200) {
               assignParamsToLinks()
             } else {
-              debugger
               // Cookie Options
               const date = new Date()
               date.setDate(date.getDate() + 90) // 90 days after
