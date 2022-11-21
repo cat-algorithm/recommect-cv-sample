@@ -61,11 +61,11 @@
 
         const fetchDataFromCookieOrLocalStorage = () => {
           // Cookie Data
-          const baseArray = document.cookie.split('; ')
-          const rmtAdId = baseArray.find((val) => val.includes(RMT_AD_ID_KEY))?.split('=')[1]
-          const kvsArray = baseArray.map((_kvs) => _kvs.replace(`_${rmtAdId}`, '').split('='))
+          baseArray = document.cookie.split('; ')
+          rmtAdId = baseArray.find((val) => val.includes(RMT_AD_ID_KEY))?.split('=')[1]
+          kvsArray = baseArray.map((_kvs) => _kvs.replace(`_${rmtAdId}`, '').slice(1).split('='))
                                     .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
-          const kvs = Object.fromEntries(kvsArray)
+          kvs = Object.fromEntries(kvsArray)
 
           // localStorage Data
           const lsKeys = Object.keys(localStorage)
