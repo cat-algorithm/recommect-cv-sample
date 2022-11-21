@@ -60,17 +60,19 @@
 
         const fetchDataFromCookieOrLocalStorage = () => {
           // Cookie Data
-          const kvs = document.cookie.split("; ")
+          const kvsArray = document.cookie.split("; ")
                                      .map((_kvs) => _kvs.split('='))
                                      .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
+          const kvs = Object.fromEntries(kvsArray)
 
           // localStorage Data
           const lsKeys = Object.keys(localStorage)
-          const lsKvs = lsKeys.map((key) => [key, localStorage.getItem(key)])
+          const lsKvsArray = lsKeys.map((key) => [key, localStorage.getItem(key)])
                               .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
+          const lsKvs = Object.fromEntries(lsKvsArray)
 
           // Cookie と localStorage のうち Cookie にある値を優先して merge
-          const kvPairs = {...lsKvs, kvs}
+          const kvPairs = {...lsKvs, ...kvs}
           return kvPairs
         }
 
