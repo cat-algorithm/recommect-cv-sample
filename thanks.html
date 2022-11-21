@@ -44,6 +44,7 @@
 
         const clearCookieAndLocalStorageData = () => {
           // remove RMT_AD_ID_KEY Cookie
+          debugger;
           document.cookie = `${RMT_AD_ID_KEY}${targetAdId}=; max-age=0;`;
           // remove RMT_SID_KEY Cookie
           document.cookie = `${RMT_SID_KEY}${targetAdId}=; max-age=0;`;
