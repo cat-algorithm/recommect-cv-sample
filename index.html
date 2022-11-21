@@ -36,6 +36,7 @@
 
         const assignParamsToLinks = () => {
           const kvs = fetchDataFromCookieOrLocalStorage()
+          const params = new URLSearchParams(kvs)
 
           const nodes = Array.from((document.querySelectorAll(`[href^='${salesPageUrl}']`)))
           nodes.forEach((node) => {
