@@ -42,9 +42,9 @@
           return kvPairs;
         };
 
-        const clearCookieAndLocalStorageData = () => {
-          // remove RMT_AD_ID_KEY Cookie
+        const clearCookieAndLocalStorageData = (targetAdId) => {
           debugger;
+          // remove RMT_AD_ID_KEY Cookie
           document.cookie = `${RMT_AD_ID_KEY}${targetAdId}=; max-age=0;`;
           // remove RMT_SID_KEY Cookie
           document.cookie = `${RMT_SID_KEY}${targetAdId}=; max-age=0;`;
@@ -80,7 +80,7 @@
         // if succeeded, remove cookies
         xhr.onloadend = () => {
           if (xhr.status === 200) {
-            clearCookieAndLocalStorageData();
+            clearCookieAndLocalStorageData(adId);
           }
         };
       };
