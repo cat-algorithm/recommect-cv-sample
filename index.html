@@ -61,21 +61,21 @@
 
         const fetchDataFromCookieOrLocalStorage = () => {
           // Cookie Data
-          baseArray = document.cookie.split('; ')
-          rmtAdId = baseArray.find((val) => val.includes(RMT_AD_ID_KEY))?.split('=')[1]
-          kvsArray = baseArray.map((_kvs) => _kvs.replace(`_${rmtAdId}`, '').slice(1).split('='))
+          const baseArray = document.cookie.split('; ')
+          const rmtAdId = baseArray.find((val) => val.includes(RMT_AD_ID_KEY))?.split('=')[1]
+          const kvsArray = baseArray.map((_kvs) => _kvs.replace(`_${rmtAdId}`, '').slice(1).split('='))
                                     .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
-          kvs = Object.fromEntries(kvsArray)
+          const kvs = Object.fromEntries(kvsArray)
 
           // localStorage Data
           const lsKeys = Object.keys(localStorage)
           const lsRmtAdId = lsKeys.find((val) => val.includes(RMT_AD_ID_KEY))?.replace(`_${RMT_AD_ID_KEY}_`, '')
           const lsKvsArray = lsKeys.map((_key) => {
-                                const key = _key.replace(`_${lsRmtAdId}`, '').slice(1)
-                                const value = localStorage.getItem(_key)
-                                return [key, value]
-                              })
-                              .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
+                               const key = _key.replace(`_${lsRmtAdId}`, '').slice(1)
+                               const value = localStorage.getItem(_key)
+                               return [key, value]
+                             })
+                             .filter(([k, _]) => k.includes(RMT_AD_ID_KEY) || k.includes(RMT_SID_KEY))
           const lsKvs = Object.fromEntries(lsKvsArray)
 
           // Cookie と localStorage のうち Cookie にある値を優先して merge
@@ -123,15 +123,14 @@
         // Main Logic
         const urlParameters = fetchUrlParameters()
         saveCookiesAndLocalStorage(urlParameters)
-      };
+      }
 
       if (document.readyState !== 'complete') {
         document.addEventListener('DOMContentLoaded', rmtRelay);
       } else {
         rmtRelay();
       }
-      </script>
-
+    </script>
     <!-- ------------------------- -->
 
     <!-- ※ 同階層に issue_cookie.php を配置してください -->
